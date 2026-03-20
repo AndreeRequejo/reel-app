@@ -4,6 +4,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { Request } from 'express';
+import type { JwtRefreshUser } from '../types/auth-user.type';
 
 @Injectable()
 export class JwtRefreshStrategy extends PassportStrategy(
@@ -22,7 +23,10 @@ export class JwtRefreshStrategy extends PassportStrategy(
     });
   }
 
-  validate(req: Request, payload: { sub: string; email: string }) {
+  validate(
+    req: Request,
+    payload: { sub: string; email: string },
+  ): JwtRefreshUser {
     const refreshToken = req.cookies?.['refresh_token'];
     if (!refreshToken) throw new UnauthorizedException();
     return { id: payload.sub, email: payload.email, refreshToken };
