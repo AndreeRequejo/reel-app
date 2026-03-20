@@ -48,3 +48,10 @@ export interface Genre {
   id: number;
   name: string;
 }
+
+export interface MovieResponse<TMovie = Movie> {
+  page: number;
+  total_pages: number;
+  total_results: number;
+  results: TMovie[];
+}
