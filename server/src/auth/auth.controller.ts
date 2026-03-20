@@ -1,34 +1,61 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  HttpCode,
+  HttpStatus,
+  Post,
+  Req,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { CreateAuthDto } from './dto/create-auth.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
+import { Throttle } from '@nestjs/throttler';
+import { RegisterDto } from './dto/register.dto';
+import { LoginDto } from './dto/login.dto';
+import type { Response } from 'express';
+import { AuthGuard } from '@nestjs/passport';
+import type {
+  JwtAccessUser,
+  JwtRefreshUser,
+  RequestWithUser,
+} from './types/auth-user.type';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Post()
-  create(@Body() createAuthDto: CreateAuthDto) {
-    return this.authService.create(createAuthDto);
+  @Post('register')
+  @Throttle({ default: { limit: 5, ttl: 60000 } }) // 5 registros por minuto por IP
+  register(@Body() dto: RegisterDto) {
+    return this.authService.register(dto);
   }
 
-  @Get()
-  findAll() {
-    return this.authService.findAll();
+  @Post('login')
+  @HttpCode(HttpStatus.OK)
+  @Throttle({ default: { limit: 10, ttl: 60000 } }) // 10 intentos por minuto
+  login(@Body() dto: LoginDto, @Res({ passthrough: true }) res: Response) {
+    return this.authService.login(dto, res);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.authService.findOne(+id);
+  @Post('refresh')
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(AuthGuard('jwt-refresh'))
+  refresh(
+    @Req() req: RequestWithUser<JwtRefreshUser>,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    const { id, refreshToken } = req.user;
+    return this.authService.refresh(id, refreshToken, res);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAuthDto: UpdateAuthDto) {
-    return this.authService.update(+id, updateAuthDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.authService.remove(+id);
+  @Post('logout')
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(AuthGuard('jwt-access'))
+  logout(
+    @Req() req: RequestWithUser<JwtAccessUser>,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    const user = req.user;
+    return this.authService.logout(user.id, res);
   }
 }
