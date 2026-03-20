@@ -1,32 +1,48 @@
-import { Controller, Get, Post, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateRefreshTokenDto } from './dto/update-refresh-token.dto';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  create() {
-    return this.usersService.create();
+  create(@Body() createUserDto: CreateUserDto) {
+    return this.usersService.create(createUserDto);
   }
 
-  @Get()
-  findAll() {
-    return this.usersService.findAll();
+  @Get('email/:email')
+  findByEmail(@Param('email') email: string) {
+    return this.usersService.findByEmail(email);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne(+id);
+  findById(@Param('id') id: string) {
+    return this.usersService.findById(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string) {
-    return this.usersService.update(+id);
+  @Patch(':id/refresh-token')
+  updateRefreshToken(
+    @Param('id') id: string,
+    @Body() updateRefreshTokenDto: UpdateRefreshTokenDto,
+  ) {
+    return this.usersService.updateRefreshToken(
+      id,
+      updateRefreshTokenDto.hashedRefreshToken ?? null,
+    );
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(+id);
+  @Delete(':id/refresh-token')
+  clearRefreshToken(@Param('id') id: string) {
+    return this.usersService.clearRefreshToken(id);
   }
 }
