@@ -5,7 +5,7 @@ export class Showtime {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column('string', { nullable: false, unique: true })
+  @Column({ nullable: false })
   movieId: string;
 
   @Column('date', { nullable: false })
