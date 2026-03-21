@@ -68,5 +68,6 @@ export const discoverByGenreMovies = (
 ): Promise<TmdbResponse> =>
   fetchTMDb('/discover/movie', {
     with_genres: String(genreId),
+    sort_by: 'popularity.desc',
     page: String(page),
   });
