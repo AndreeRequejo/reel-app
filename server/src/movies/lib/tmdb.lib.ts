@@ -1,6 +1,7 @@
 import { BASE_URL, DEFAULT_LANGUAGE } from '../const/tmdb.const';
 import { Genre } from '../interfaces/movie.interface';
 import { TmdbResponse } from '../interfaces/tmdb.interface';
+import { TmdbDetailResponse } from '../interfaces/tmdb-detail.interface';
 
 function getTmdbApiKey(): string {
   const apiKey = process.env.TMDB_API_KEY;
@@ -32,6 +33,11 @@ export async function fetchTMDb<T>(
   return (await response.json()) as T;
 }
 
+export const getMovieDetail = (id: string): Promise<TmdbDetailResponse> =>
+  fetchTMDb<TmdbDetailResponse>(`/movie/${id}`, {
+    append_to_response: 'credits,videos',
+  });
+
 export const getTrendingMovies = (page = 1): Promise<TmdbResponse> =>
   fetchTMDb('/trending/movie/week', { page: String(page) });
 
@@ -50,7 +56,8 @@ export const getUpcomingMovies = (page = 1): Promise<TmdbResponse> =>
 export const searchMovies = (query: string, page = 1): Promise<TmdbResponse> =>
   fetchTMDb('/search/movie', { query, page: String(page) });
 
-export const searchMoviesById = (id: string) => fetchTMDb(`/movie/${id}`);
+export const searchMoviesById = (id: string): Promise<TmdbDetailResponse> =>
+  fetchTMDb<TmdbDetailResponse>(`/movie/${id}`);
 
 export const getGenresMovies = (): Promise<{ genres: Genre[] }> =>
   fetchTMDb('/genre/movie/list');
