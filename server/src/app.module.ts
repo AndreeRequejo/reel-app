@@ -6,6 +6,7 @@ import { MoviesModule } from './movies/movies.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { EnvConfiguration, JoiValidationSchema } from './config/app.config';
+import { ShowtimesModule } from './showtimes/showtimes.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { EnvConfiguration, JoiValidationSchema } from './config/app.config';
     AuthModule,
     UsersModule,
     MoviesModule,
+    ShowtimesModule,
   ],
   controllers: [AppController],
   providers: [],
