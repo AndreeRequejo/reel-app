@@ -14,6 +14,9 @@ async function bootstrap() {
   // Lectura de cookies
   app.use(cookieParser());
 
+  // Global prefix para la API
+  app.setGlobalPrefix('api');
+
   // Validación global de DTOs
   app.useGlobalPipes(
     new ValidationPipe({
