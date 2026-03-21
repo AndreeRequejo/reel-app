@@ -6,6 +6,7 @@ import {
   Param,
   Delete,
   ParseUUIDPipe,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { ShowtimesService } from './showtimes.service';
 import { CreateShowtimeDto } from './dto/create-showtime.dto';
@@ -24,9 +25,9 @@ export class ShowtimesController {
     return this.showtimesService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id', ParseUUIDPipe) id: string) {
-    return this.showtimesService.findOne(id);
+  @Get(':movieId')
+  findOne(@Param('movieId', ParseIntPipe) movieId: number) {
+    return this.showtimesService.findOne(String(movieId));
   }
 
   @Delete(':id')

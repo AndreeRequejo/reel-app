@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateShowtimeDto } from './dto/create-showtime.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -11,20 +11,28 @@ export class ShowtimesService {
     private readonly showtimeRepository: Repository<Showtime>,
   ) {}
 
-  create(createShowtimeDto: CreateShowtimeDto) {
+  async create(createShowtimeDto: CreateShowtimeDto) {
     const showtime = this.showtimeRepository.create(createShowtimeDto);
-    return this.showtimeRepository.save(showtime);
+    return await this.showtimeRepository.save(showtime);
   }
 
-  findAll() {
-    return this.showtimeRepository.find();
+  async findAll() {
+    return await this.showtimeRepository.find();
   }
 
-  findOne(id: string) {
-    return this.showtimeRepository.findOneBy({ id });
+  async findOne(movieId: string) {
+    const showtime = await this.showtimeRepository.findOneBy({
+      movieId: movieId,
+    });
+
+    if (!showtime) {
+      throw new NotFoundException(`No showtime found for movieId: ${movieId}`);
+    }
+
+    return showtime;
   }
 
-  remove(id: string) {
-    return this.showtimeRepository.delete({ id });
+  async remove(id: string) {
+    return await this.showtimeRepository.delete({ id });
   }
 }
