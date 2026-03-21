@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
+import { EnvConfiguration } from 'src/config/app.config';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
@@ -18,7 +19,7 @@ export class JwtRefreshStrategy extends PassportStrategy(
         (req: Request) => req?.cookies?.['refresh_token'] ?? null,
       ]),
       ignoreExpiration: false,
-      secretOrKey: process.env.JWT_REFRESH_SECRET!,
+      secretOrKey: EnvConfiguration().jwt_refresh_secret,
       passReqToCallback: true,
     });
   }
