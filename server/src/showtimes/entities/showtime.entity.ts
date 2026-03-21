@@ -8,6 +8,9 @@ export class Showtime {
   @Column({ nullable: false })
   movieId: string;
 
+  @Column({ nullable: false })
+  movieName: string;
+
   @Column('date', { nullable: false })
   date: string;
 

@@ -7,6 +7,10 @@ export class CreateShowtimeDto {
 
   @IsString()
   @IsNotEmpty()
+  movieName: string;
+
+  @IsString()
+  @IsNotEmpty()
   date: string;
 
   @IsString()
