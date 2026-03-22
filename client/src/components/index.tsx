@@ -1,1 +1,4 @@
 export { Footer } from "./ui/Footer";
+export { Button } from "./ui/Button";
+export { Navbar } from "./NavBar";
+export { SearchBar } from "./SearchBar";
