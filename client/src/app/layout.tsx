@@ -3,7 +3,10 @@ import { titlesFont, generalFont } from "@/config/fonts";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Reel App",
+  title: {
+    template: "%s | Reel App",
+    default: "Home - Reel App",
+  },
   description: "Descubre y compra tus boletos para las mejores películas",
 };
 
