@@ -14,7 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${generalFont.variable} ${titlesFont.variable} antialiased`}>
+      <body className={`${generalFont.variable} ${titlesFont.variable} min-h-screen bg-background`}>
         {children}
       </body>
     </html>
