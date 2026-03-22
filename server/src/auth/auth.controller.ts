@@ -19,17 +19,20 @@ import type {
   JwtRefreshUser,
   RequestWithUser,
 } from './types/auth-user.type';
+import { Public } from './decorators/public.decorator';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @Public()
   @Post('register')
   @Throttle({ default: { limit: 5, ttl: 60000 } }) // 5 registros por minuto por IP
   register(@Body() dto: RegisterDto) {
     return this.authService.register(dto);
   }
 
+  @Public()
   @Post('login')
   @HttpCode(HttpStatus.OK)
   @Throttle({ default: { limit: 10, ttl: 60000 } }) // 10 intentos por minuto
@@ -37,6 +40,7 @@ export class AuthController {
     return this.authService.login(dto, res);
   }
 
+  @Public()
   @Post('refresh')
   @HttpCode(HttpStatus.OK)
   @UseGuards(AuthGuard('jwt-refresh'))
