@@ -1,4 +1,5 @@
-// movie.mapper.ts
+import { getBackdropUrl, getImageUrl } from './../const/tmdb.const';
+
 import {
   Movie,
   MovieDetail,
@@ -12,8 +13,8 @@ export function mapToMovie(raw: Result): Movie {
     id: raw.id,
     title: raw.title,
     overview: raw.overview,
-    poster_path: raw.poster_path ?? null,
-    backdrop_path: raw.backdrop_path ?? null,
+    poster_path: getImageUrl(raw.poster_path) ?? null,
+    backdrop_path: getBackdropUrl(raw.backdrop_path) ?? null,
     release_date: String(raw.release_date),
     vote_average: raw.vote_average,
   };
@@ -33,8 +34,8 @@ export function mapSearchMovie(raw: TmdbDetailResponse): Movie {
     id: raw.id,
     title: raw.title,
     overview: raw.overview,
-    poster_path: raw.poster_path ?? null,
-    backdrop_path: raw.backdrop_path ?? null,
+    poster_path: getImageUrl(raw.poster_path) ?? null,
+    backdrop_path: getBackdropUrl(raw.backdrop_path) ?? null,
     release_date: String(raw.release_date),
     vote_average: raw.vote_average,
   };
@@ -45,8 +46,8 @@ export function mapToMovieDetail(raw: TmdbDetailResponse): MovieDetail {
     id: raw.id,
     title: raw.title,
     overview: raw.overview,
-    poster_path: raw.poster_path ?? null,
-    backdrop_path: raw.backdrop_path ?? null,
+    poster_path: getImageUrl(raw.poster_path) ?? null,
+    backdrop_path: getBackdropUrl(raw.backdrop_path) ?? null,
     release_date: String(raw.release_date),
     vote_average: raw.vote_average,
     genres: raw.genres ?? [],
@@ -57,13 +58,13 @@ export function mapToMovieDetail(raw: TmdbDetailResponse): MovieDetail {
             id: c.id,
             name: c.name,
             character: c.character,
-            profile_path: c.profile_path,
+            profile_path: getImageUrl(c.profile_path) ?? null,
           })),
           crew: (raw.credits.crew ?? []).map((c) => ({
             id: c.id,
             name: c.name,
             job: c.job,
-            profile_path: c.profile_path,
+            profile_path: getImageUrl(c.profile_path) ?? null,
           })),
         }
       : undefined,
