@@ -1,8 +1,8 @@
 "use server";
 
-import type { Movie } from "@/interfaces/movie";
+import { Genre } from "@/interfaces/movie";
 
-export async function getTrendingMovies(): Promise<Movie[]> {
+export async function getMoviesByType(): Promise<Genre[]> {
   try {
     const backendUrl = process.env.BACKEND_URL;
 
@@ -10,7 +10,7 @@ export async function getTrendingMovies(): Promise<Movie[]> {
       throw new Error("BACKEND_URL environment variable is not defined");
     }
 
-    const response = await fetch(`${backendUrl}/movies/trending`, {
+    const response = await fetch(`${backendUrl}/movies/genres`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -19,14 +19,14 @@ export async function getTrendingMovies(): Promise<Movie[]> {
 
     if (!response.ok) {
       throw new Error(
-        `Failed to fetch trending movies: ${response.statusText}`,
+        `Failed to fetch genres movies: ${response.statusText}`,
       );
     }
 
-    const data = await response.json();
-    return data.results;
+    const data: Genre[] = await response.json();
+    return data;
   } catch (error) {
-    console.error("Error fetching trending movies:", error);
+    console.error(`Error fetching genres movies:`, error);
     throw error;
   }
 }
