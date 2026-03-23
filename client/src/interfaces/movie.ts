@@ -11,6 +11,7 @@ export interface Movie {
 export interface MovieDetail extends Movie {
   genres: Genre[];
   status: string;
+  runtime: number;
   credits?: {
     cast: {
       id: number;
