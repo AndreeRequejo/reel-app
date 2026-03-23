@@ -1,5 +1,5 @@
 'use client';
-import { getTrendingMovies } from "@/actions/movies/get-trending";
+import { getTrendingMovies } from "@/actions";
 import { useEffect, useState } from "react";
 import Image from 'next/image';
 import { Movie } from "@/interfaces/movie";
