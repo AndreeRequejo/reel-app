@@ -1,0 +1,7 @@
+export type { MovieType } from "./movies/get-type";
+export { getMoviesByType } from "./movies/get-type";
+export { getTrendingMovies } from "./movies/get-type";
+export { getPopularMovies } from "./movies/get-type";
+export { getTopRatedMovies } from "./movies/get-type";
+export { getNowPlayingMovies } from "./movies/get-type";
+export { getUpcomingMovies } from "./movies/get-type";
