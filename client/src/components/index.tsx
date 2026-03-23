@@ -4,3 +4,4 @@ export { Navbar } from "./NavBar";
 export { SearchBar } from "./SearchBar";
 export { HeroSection } from "./HeroSection";
 export { MovieList } from "./MovieList";
+export { MovieDetailModal } from "./MovieDetailModal";
