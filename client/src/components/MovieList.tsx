@@ -12,14 +12,53 @@ interface MovieRowProps {
 
 export const MovieList = ({ title, movies, onMovieSelect }: MovieRowProps) => {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const animationFrameRef = useRef<number | null>(null);
+
+  const animateScroll = (targetLeft: number, duration = 520) => {
+    const container = scrollRef.current;
+    if (!container) return;
+
+    if (animationFrameRef.current !== null) {
+      cancelAnimationFrame(animationFrameRef.current);
+    }
+
+    const startLeft = container.scrollLeft;
+    const startTime = performance.now();
+    const maxScrollLeft = container.scrollWidth - container.clientWidth;
+    const safeTarget = Math.max(0, Math.min(targetLeft, maxScrollLeft));
+
+    const easeInOutCubic = (t: number) =>
+      t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+    const step = (currentTime: number) => {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const easedProgress = easeInOutCubic(progress);
+
+      container.scrollLeft =
+        startLeft + (safeTarget - startLeft) * easedProgress;
+
+      if (progress < 1) {
+        animationFrameRef.current = requestAnimationFrame(step);
+      } else {
+        animationFrameRef.current = null;
+      }
+    };
+
+    animationFrameRef.current = requestAnimationFrame(step);
+  };
 
   const scroll = (direction: "left" | "right") => {
-    if (!scrollRef.current) return;
-    const amount = scrollRef.current.clientWidth * 0.8;
-    scrollRef.current.scrollBy({
-      left: direction === "left" ? -amount : amount,
-      behavior: "smooth",
-    });
+    const container = scrollRef.current;
+    if (!container) return;
+
+    const amount = container.clientWidth * 0.8;
+    const nextLeft =
+      direction === "left"
+        ? container.scrollLeft - amount
+        : container.scrollLeft + amount;
+
+    animateScroll(nextLeft);
   };
 
   return (
