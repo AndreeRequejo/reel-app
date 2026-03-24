@@ -5,3 +5,4 @@ export { getPopularMovies } from "./movies/get-type";
 export { getTopRatedMovies } from "./movies/get-type";
 export { getNowPlayingMovies } from "./movies/get-type";
 export { getUpcomingMovies } from "./movies/get-type";
+export { getMovieDetail } from "./movies/get-detail";
