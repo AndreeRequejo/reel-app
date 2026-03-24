@@ -1,6 +1,6 @@
 'use client';
 import { useRef } from "react";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { MdChevronRight, MdChevronLeft } from "react-icons/md";
 import { MovieCard } from "./MovieCard";
 import { Movie } from "@/interfaces/movie";
 
@@ -33,13 +33,13 @@ export const MovieList = ({ title, movies, onMovieSelect }: MovieRowProps) => {
             onClick={() => scroll("left")}
             className="p-2 rounded-full bg-secondary hover:bg-muted transition-colors"
           >
-            <FaChevronLeft className="w-5 h-5" />
+            <MdChevronLeft className="w-5 h-5" />
           </button>
           <button
             onClick={() => scroll("right")}
             className="p-2 rounded-full bg-secondary hover:bg-muted transition-colors"
           >
-            <FaChevronRight className="w-5 h-5" />
+            <MdChevronRight className="w-5 h-5" />
           </button>
         </div>
       </div>
