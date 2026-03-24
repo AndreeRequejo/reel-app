@@ -14,8 +14,8 @@ export class MoviesController {
   constructor(private readonly moviesService: MoviesService) {}
 
   @Public()
-  @Get('detail')
-  getDetail(@Query('id') id: string) {
+  @Get('detail/:id')
+  getDetail(@Param('id') id: string) {
     return this.moviesService.getDetail(id);
   }
 
