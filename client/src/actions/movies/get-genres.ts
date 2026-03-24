@@ -1,8 +1,8 @@
 "use server";
 
-import { Genre } from "@/interfaces/movie";
+import { Genre, GenreResponse } from "@/interfaces/movie";
 
-export async function getMoviesByType(): Promise<Genre[]> {
+export async function getGenres(): Promise<Genre[]> {
   try {
     const backendUrl = process.env.BACKEND_URL;
 
@@ -23,8 +23,8 @@ export async function getMoviesByType(): Promise<Genre[]> {
       );
     }
 
-    const data: Genre[] = await response.json();
-    return data;
+    const data: GenreResponse = await response.json();
+    return data.genres;
   } catch (error) {
     console.error(`Error fetching genres movies:`, error);
     throw error;
