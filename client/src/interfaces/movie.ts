@@ -48,3 +48,7 @@ export interface MovieResponse<TMovie = Movie> {
   total_results: number;
   results: TMovie[];
 }
+
+export interface GenreResponse {
+  genres: Genre[];
+}
