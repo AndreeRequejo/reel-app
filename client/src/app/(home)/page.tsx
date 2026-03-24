@@ -36,7 +36,6 @@ export default function HomePage() {
       <MovieDetailModal
         movieId={selectedMovie}
         onClose={() => setSelectedMovie(null)}
-        onMovieSelect={setSelectedMovie}
       />
     </>
   );
