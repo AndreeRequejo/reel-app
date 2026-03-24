@@ -37,7 +37,7 @@ export const Navbar = ({ onMovieSelect }: NavbarProps) => {
             </Button>
           </Link>
 
-          <Link href="/auth">
+          <Link href="/auth/login">
             <Button variant="ghost" size="sm" className="flex items-center gap-2">
               <FiLogIn className="w-4 h-4" />
               <span className="hidden sm:inline">Entrar</span>
