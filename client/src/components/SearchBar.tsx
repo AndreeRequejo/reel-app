@@ -1,22 +1,67 @@
-'use client';
+"use client";
+/* eslint-disable react-hooks/set-state-in-effect */
 import { IoSearchOutline } from "react-icons/io5";
+import { IoIosClose } from "react-icons/io";
 import { motion, AnimatePresence } from "motion/react";
+import { useEffect, useRef, useState } from "react";
+import { searchMovies } from "@/actions";
+import { Movie } from "@/interfaces/movie";
+import { MovieCard } from "./MovieCard";
 
 interface SearchBarProps {
   onMovieSelect: (movideId: number) => void;
 }
 
 export const SearchBar = ({ onMovieSelect }: SearchBarProps) => {
+  const [query, setQuery] = useState("");
+  const [results, setResults] = useState<Movie[]>([]);
+  const [isOpen, setIsOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const timeoutRef = useRef<NodeJS.Timeout>(null);
+
+  useEffect(() => {
+    if (query.length < 2) {
+      setResults([]);
+      return;
+    }
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+    timeoutRef.current = setTimeout(async () => {
+      setLoading(true);
+      try {
+        const data = await searchMovies(query);
+        setResults(data.slice(0, 12));
+      } catch {
+        setResults([]);
+      }
+      setLoading(false);
+    }, 400);
+  }, [query]);
+
+  const handleSelect = (id: number) => {
+    onMovieSelect(id);
+    setIsOpen(false);
+    setQuery("");
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      inputRef.current?.focus();
+    }
+  }, [isOpen]);
+
   return (
     <>
       <button
-        onClick={() => {}}
+        onClick={() => setIsOpen(true)}
         className="p-2 rounded-full hover:bg-secondary transition-colors cursor-pointer"
       >
         <IoSearchOutline className="w-5 h-5" />
       </button>
 
-      {/* <AnimatePresence>
+      <AnimatePresence>
         {isOpen && (
           <motion.div
             initial={{ opacity: 0 }}
@@ -26,7 +71,7 @@ export const SearchBar = ({ onMovieSelect }: SearchBarProps) => {
           >
             <div className="max-w-4xl mx-auto pt-20 px-6">
               <div className="flex items-center gap-4 border-b border-border pb-4 mb-8">
-                <Search className="w-6 h-6 text-muted-foreground" />
+                <IoSearchOutline className="w-6 h-6 text-muted-foreground" />
                 <input
                   ref={inputRef}
                   value={query}
@@ -40,7 +85,7 @@ export const SearchBar = ({ onMovieSelect }: SearchBarProps) => {
                     setQuery("");
                   }}
                 >
-                  <X className="w-6 h-6 text-muted-foreground hover:text-foreground transition-colors" />
+                  <IoIosClose className="w-6 h-6 text-muted-foreground hover:text-foreground transition-colors" />
                 </button>
               </div>
 
@@ -65,13 +110,13 @@ export const SearchBar = ({ onMovieSelect }: SearchBarProps) => {
 
               {!loading && query.length >= 2 && results.length === 0 && (
                 <div className="text-center text-muted-foreground py-12">
-                  No se encontraron resultados para "{query}"
+                  No se encontraron resultados para `{query}`
                 </div>
               )}
             </div>
           </motion.div>
         )}
-      </AnimatePresence> */}
+      </AnimatePresence>
     </>
   );
 };
