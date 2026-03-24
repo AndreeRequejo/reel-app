@@ -7,3 +7,5 @@ export { getNowPlayingMovies } from "./movies/get-type";
 export { getUpcomingMovies } from "./movies/get-type";
 export { getMovieDetail } from "./movies/get-detail";
 export { searchMovies } from "./movies/search";
+export { getGenres } from "./movies/get-genres";
+export { discoverGenreMovies } from "./movies/discover-genre";
