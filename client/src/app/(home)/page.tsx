@@ -1,6 +1,7 @@
 'use client';
 import { getNowPlayingMovies, getPopularMovies, getTopRatedMovies, getUpcomingMovies } from "@/actions";
 import { HeroSection, MovieDetailModal, MovieList, Navbar } from "@/components";
+import GenreExplorer from "@/components/GenreExplorer";
 import { Movie } from "@/interfaces/movie";
 import { useEffect, useState } from "react";
 
@@ -33,6 +34,7 @@ export default function HomePage() {
       <MovieList title="MEJOR VALORADAS" movies={topRated} onMovieSelect={setSelectedMovie} />
       <MovieList title="EN CARTELERA" movies={nowPlaying} onMovieSelect={setSelectedMovie} />
       <MovieList title="PRÓXIMAMENTE" movies={upcoming} onMovieSelect={setSelectedMovie} />
+      <GenreExplorer onMovieSelect={setSelectedMovie} />
       <MovieDetailModal
         movieId={selectedMovie}
         onClose={() => setSelectedMovie(null)}
