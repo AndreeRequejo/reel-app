@@ -14,13 +14,11 @@ import { getMovieDetail } from "@/actions";
 interface MovieDetailModalProps {
   movieId: number | null;
   onClose: () => void;
-  onMovieSelect?: (id: number) => void;
 }
 
 export const MovieDetailModal = ({
   movieId,
-  onClose,
-  onMovieSelect,
+  onClose
 }: MovieDetailModalProps) => {
   const [movie, setMovie] = useState<MovieDetail | null>(null);
   const [loading, setLoading] = useState(false);
