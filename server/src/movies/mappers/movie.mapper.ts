@@ -52,6 +52,7 @@ export function mapToMovieDetail(raw: TmdbDetailResponse): MovieDetail {
     vote_average: raw.vote_average,
     genres: raw.genres ?? [],
     status: raw.status,
+    runtime: raw.runtime,
     credits: raw.credits
       ? {
           cast: (raw.credits.cast ?? []).map((c) => ({
