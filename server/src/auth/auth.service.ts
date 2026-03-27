@@ -4,6 +4,7 @@ import {
   UnauthorizedException,
   ConflictException,
   ForbiddenException,
+  NotFoundException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
@@ -62,6 +63,22 @@ export class AuthService {
     this.setRefreshCookie(res, tokens.refreshToken);
 
     return { access_token: tokens.accessToken };
+  }
+
+  // ─── Usuario autenticado actual ─────────────────────────────
+  async getMe(userId: string) {
+    const user = await this.usersService.findById(userId);
+    if (!user) throw new NotFoundException('Usuario no encontrado');
+
+    const {
+      id,
+      password,
+      hashedRefreshToken,
+      createdAt,
+      updatedAt,
+      ...publicUser
+    } = user;
+    return publicUser;
   }
 
   // ─── Refresh ─────────────────────────────────────────────────

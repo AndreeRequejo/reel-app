@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   HttpStatus,
   Post,
@@ -38,6 +39,12 @@ export class AuthController {
   @Throttle({ default: { limit: 10, ttl: 60000 } }) // 10 intentos por minuto
   login(@Body() dto: LoginDto, @Res({ passthrough: true }) res: Response) {
     return this.authService.login(dto, res);
+  }
+
+  @Get('me')
+  @UseGuards(AuthGuard('jwt-access'))
+  me(@Req() req: RequestWithUser<JwtAccessUser>) {
+    return this.authService.getMe(req.user.id);
   }
 
   @Public()
