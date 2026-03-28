@@ -3,7 +3,11 @@
 import { useEffect, useRef } from "react";
 import { useAuthStore } from "@/store/auth-store";
 
-export function AuthInitializer() {
+interface AuthProviderProps {
+  children: React.ReactNode;
+}
+
+export function AuthProvider({ children }: AuthProviderProps) {
   const initializeAuth = useAuthStore((state) => state.initializeAuth);
   const hasInitialized = useRef(false);
 
@@ -16,5 +20,5 @@ export function AuthInitializer() {
     void initializeAuth();
   }, [initializeAuth]);
 
-  return null;
+  return <>{children}</>;
 }
