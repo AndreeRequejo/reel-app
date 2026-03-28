@@ -103,14 +103,17 @@ export class AuthService {
 
   // ─── Logout ──────────────────────────────────────────────────
   async logout(userId: string, res: Response) {
+    const isProduction = process.env.NODE_ENV === 'production';
+
     // Invalida el refresh token en DB
     await this.usersService.clearRefreshToken(userId);
 
     // Limpia la cookie
     res.clearCookie('refresh_token', {
       httpOnly: true,
-      secure: true,
-      sameSite: 'strict',
+      secure: isProduction,
+      sameSite: isProduction ? 'none' : 'lax',
+      path: '/api/auth/refresh',
     });
     return { message: 'Sesión cerrada' };
   }
@@ -140,12 +143,14 @@ export class AuthService {
   }
 
   private setRefreshCookie(res: Response, token: string) {
+    const isProduction = process.env.NODE_ENV === 'production';
+
     res.cookie('refresh_token', token, {
       httpOnly: true, // JS nunca puede leerla
-      secure: process.env.NODE_ENV === 'production', // solo HTTPS en prod
-      sameSite: 'strict', // protección CSRF
+      secure: isProduction, // solo HTTPS en prod
+      sameSite: isProduction ? 'none' : 'lax',
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 días en ms
-      path: '/auth/refresh', // cookie solo se envía a esta ruta
+      path: '/api/auth/refresh', // alinea con el globalPrefix("api")
     });
   }
 }
