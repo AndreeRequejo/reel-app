@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { titlesFont, generalFont } from "@/config/fonts";
+import { AuthInitializer } from "@/components/AuthInitializer";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -18,6 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${generalFont.variable} ${titlesFont.variable} min-h-screen bg-background`}>
+        <AuthInitializer />
         {children}
       </body>
     </html>
