@@ -47,7 +47,6 @@ export class AuthController {
     return this.authService.getMe(req.user.id);
   }
 
-  @Public()
   @Post('refresh')
   @HttpCode(HttpStatus.OK)
   @UseGuards(AuthGuard('jwt-refresh'))
