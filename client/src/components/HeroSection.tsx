@@ -1,7 +1,7 @@
-'use client';
+"use client";
 import { getTrendingMovies } from "@/actions";
 import { useEffect, useState } from "react";
-import Image from 'next/image';
+import Image from "next/image";
 import { Movie } from "@/interfaces/movie";
 import { Button } from "./ui/Button";
 import { FaStar } from "react-icons/fa";
@@ -49,7 +49,10 @@ export const HeroSection = ({ onMovieSelect }: HeroSectionProps) => {
             src={movie.backdrop_path || ""}
             alt={movie.title}
             fill
-            className="object-cover"
+            style={{
+              objectFit: "cover",
+            }}
+            loading="eager"
           />
         </motion.div>
       </AnimatePresence>

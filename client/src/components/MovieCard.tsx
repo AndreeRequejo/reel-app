@@ -25,9 +25,10 @@ export const MovieCard = ({ movie, onClick, index = 0 }: MovieCardProps) => {
           <Image
             src={poster}
             alt={movie.title}
-            fill
+            width={342}
+            height={513}
             className="object-cover transition-transform duration-500 group-hover:scale-110"
-            loading="lazy"
+            loading="eager"
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-muted-foreground text-sm">
