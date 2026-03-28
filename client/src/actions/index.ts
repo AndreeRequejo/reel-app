@@ -9,3 +9,8 @@ export { getMovieDetail } from "./movies/get-detail";
 export { searchMovies } from "./movies/search";
 export { getGenres } from "./movies/get-genres";
 export { discoverGenreMovies } from "./movies/discover-genre";
+export { login } from "./auth/login";
+export { register } from "./auth/register";
+export { getMe } from "./auth/me";
+export { refresh } from "./auth/refresh";
+export { logout } from "./auth/logout";
