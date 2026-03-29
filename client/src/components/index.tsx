@@ -5,3 +5,5 @@ export { SearchBar } from "./SearchBar";
 export { HeroSection } from "./HeroSection";
 export { MovieList } from "./MovieList";
 export { MovieDetailModal } from "./MovieDetailModal";
+export { ProfileCard } from "./profile/ProfileCard";
+export { PurchaseCard } from "./profile/PurchaseCard";
