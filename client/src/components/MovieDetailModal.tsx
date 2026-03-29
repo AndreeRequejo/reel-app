@@ -18,7 +18,7 @@ interface MovieDetailModalProps {
 
 export const MovieDetailModal = ({
   movieId,
-  onClose
+  onClose,
 }: MovieDetailModalProps) => {
   const [movie, setMovie] = useState<MovieDetail | null>(null);
   const [loading, setLoading] = useState(false);
@@ -84,7 +84,12 @@ export const MovieDetailModal = ({
                     <Image
                       src={movie.backdrop_path || ""}
                       alt={movie.title}
-                      fill
+                      width={185}
+                      height={104}
+                      style={{
+                        objectFit: "cover",
+                      }}
+                      loading="eager"
                       className="object-cover"
                     />
                     <div className="absolute inset-0 bg-linear-to-t from-card via-transparent to-transparent" />
