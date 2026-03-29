@@ -84,8 +84,7 @@ export const MovieDetailModal = ({
                     <Image
                       src={movie.backdrop_path || ""}
                       alt={movie.title}
-                      width={185}
-                      height={104}
+                      fill
                       style={{
                         objectFit: "cover",
                       }}
@@ -203,9 +202,12 @@ export const MovieDetailModal = ({
                               <Image
                                 src={actor.profile_path || ""}
                                 alt={actor.name}
-                                width={185}
-                                height={185}
-                                className="object-cover"
+                                width={150}
+                                height={150}
+                                style={{
+                                  objectFit: "cover",
+                                }}
+                                loading="eager"
                               />
                             ) : (
                               <div className="w-full h-full flex items-center justify-center text-muted-foreground text-xs">
