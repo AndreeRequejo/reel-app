@@ -1,7 +1,7 @@
-export default function AuthLayout({
- children
+export default function ProfileLayout({
+  children,
 }: {
- children: React.ReactNode;
+  children: React.ReactNode;
 }) {
   return (
     <div className="min-h-screen flex items-center justify-center">
